@@ -4,6 +4,7 @@ import info.gridworld.actor.Rock;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Location;
+import java.util.*;
 
 /**
  * Game of Life starter code. Demonstrates how to create and populate the game using the GridWorld framework.
@@ -18,13 +19,15 @@ public class GameOfLife
     private ActorWorld world;
     
     // the game board will have 5 rows and 5 columns
-    private final int ROWS = 5;
-    private final int COLS = 5;
+    private final int ROWS = 20;
+    private final int COLS = 20;
     
     // constants for the location of the three cells initially alive
     private final int X1 = 0, Y1 = 2;
-    private final int X2 = 2, Y2 = 0;
+    private final int X2 = 1, Y2 = 0;
     private final int X3 = 2, Y3 = 1;
+    private final int X4 = 2, Y4 = 2;
+    private final int X5 = 1, Y5 = 2;
 
     /**
      * Default constructor for objects of class GameOfLife
@@ -73,6 +76,15 @@ public class GameOfLife
         Rock rock3 = new Rock();
         Location loc3 = new Location(X3, Y3);
         grid.put(loc3, rock3);
+        
+        Rock rock4 = new Rock();
+        Location loc4 = new Location(X4, Y4);
+        grid.put(loc4, rock4);
+        
+        Rock rock5 = new Rock();
+        Location loc5 = new Location(X5, Y5);
+        grid.put(loc5, rock5);
+
     }
 
     /**
@@ -91,9 +103,72 @@ public class GameOfLife
         
         // create the grid, of the specified size, that contains Actors
         Grid<Actor> grid = world.getGrid();
+        int[] rowOnePreChange;
+        int[] row2PreChange;
+        int numOfCol ;
+        numOfCol = getNumCols();
         
-        // insert magic here...
+        rowOnePreChange = new int[numOfCol];
+        row2PreChange = new int[numOfCol];
         
+        for(int i = 0; i < getNumRows(); i++)
+        { 
+            for(int j = 0; j < getNumCols(); j++)
+            {
+                Rock rock = new Rock();
+                boolean alive;
+                int counter = 0;
+                Location loc = new Location(i, j);
+                int neighbors = grid.getNeighbors(loc).size();
+                if(grid.get(loc) != null)
+                {
+                    if(neighbors > 3 || neighbors < 2)
+                    {
+                        //grid2.remove(loc);
+                        row2PreChange[j] = 0;
+                    }
+                    else
+                    {
+                        //grid2.put(loc, rock);
+                        row2PreChange[j] = 1;
+                    }
+                }
+                
+                else if (grid.get(loc) == null)
+                {
+                    if(neighbors == 3)
+                    {
+                        //grid2.put(loc, rock);
+                        row2PreChange[j] = 1;
+                    }
+                    else
+                    {
+                        //grid2.remove(loc);
+                        row2PreChange[j] = 0;
+                    }
+                }
+            }
+            
+            for(int j = 0; j < getNumCols(); j++)
+            {
+               if (i !=0)
+               {
+                    Rock rock = new Rock();
+                    Location loc = new Location(i-1, j);
+                    if (rowOnePreChange[j] == 1)
+                    {
+                        grid.put(loc,rock);
+                    }
+                    else
+                    {
+                        grid.remove(loc);
+                    }
+                }
+                    
+                    rowOnePreChange[j] = row2PreChange[j];
+             
+            }
+         }
     }
     
     /**
@@ -137,8 +212,22 @@ public class GameOfLife
      *
      */
     public static void main(String[] args)
+    throws InterruptedException
     {
-        GameOfLife game = new GameOfLife();
+        Scanner input = new Scanner(System.in);
+        System.out.println("How many generations would you like to simulate?");
+        int generations = input.nextInt();
+        
+        GameOfLife gamea2= new GameOfLife();
+        gamea2.world.show();
+        
+        for (int i = 0; i < generations; i++)
+        {
+            gamea2.createNextGeneration();
+            gamea2.world.show();
+            Thread.sleep(100);
+            
+        }
     }
 
 }

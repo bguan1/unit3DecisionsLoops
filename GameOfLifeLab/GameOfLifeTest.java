@@ -104,6 +104,12 @@ public class GameOfLifeTest
         GameOfLife game = new GameOfLife();
         final int ROWS = game.getNumRows();
         final int COLS = game.getNumCols();
+        for(int i = 0; i < 3; i++)
+        {
+            game.createNextGeneration();
+        }
+        
+        
 
         for(int row = 0; row < ROWS; row++)
         {
@@ -127,7 +133,6 @@ public class GameOfLifeTest
                 }
             }
         }
-        
         tearDown();
     }
 }

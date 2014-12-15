@@ -5,9 +5,16 @@
  * 
  * Design:
  * Start off with a grid of size 20 x 20 and start with a basic glider. Use a for loop to
- * iterate through each square to check if in the next generation if the square has an alive or 
- * a dead actor in it. Store these values in an array and then implement these arrays in the grid
- * once you have iterated through every square.
+ * iterate through each square in the first row to check if in the next generation if the square 
+ * has an alive or a dead actor in it. 
+ * Store these values in an array. Then, run another loop to run through the second row to check
+ * if each square is supposed to have an alive or a dead actor in it and store it in a second array. 
+ * However, do not implement the alive/dead actors in the first row on the grid yet.
+ * After iterating through the second row, implement the alive/dead actors figured out by the first
+ * row onto the grid. Then, store the values from the second array into the first array
+ * Continue through the grid storing the values from the next row into the second array, implementing
+ * the first array onto the grid, and storing the values from the second array into the first array.
+ * The user decides how many generations are produced and it takes 100 ms between each generation.
  * 
  * Reflection:
  * I liked this lab but couldn't figure out how to do it until we had learned arrays. I probably

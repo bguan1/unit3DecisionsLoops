@@ -4,6 +4,7 @@
  * @author @gcschmit
  * @version 19 July 2014
  */
+import java.util.*;
 public class Radar
 {
     
@@ -34,7 +35,7 @@ public class Radar
      * @param   rows    the number of rows in the radar grid
      * @param   cols    the number of columns in the radar grid
      */
-    public Radar(int rows, int cols)
+    public Radar(int cols, int rows, int xvel, int yvel, int monsterLocationCol, int monsterLocationRow)
     {
         // initialize instance variables
         currentScan = new boolean[rows][cols]; // elements will be set to false
@@ -43,12 +44,15 @@ public class Radar
         
         // randomly set the location of the monster (can be explicity set through the
         //  setMonsterLocation method
-        monsterLocationRow = (int)(Math.random() * rows);
-        monsterLocationCol = (int)(Math.random() * cols);
-        xvel = (int)(Math.random()*10 ) - 5;
-        yvel = (int)(Math.random()*10 ) - 5;
-        //xvel = 1;
-        //yvel = 2;
+        //monsterLocationRow = (int)(Math.random() * rows);
+        //monsterLocationCol = (int)(Math.random() * cols);
+        //xvel = (int)(Math.random()*10 ) - 5;
+        //yvel = (int)(Math.random()*10 ) - 5;
+       this.xvel = xvel;
+       this.yvel = yvel;
+       this.monsterLocationCol = monsterLocationCol;
+       this.monsterLocationRow = monsterLocationRow;
+        
         //monsterLocationRow = 1;
         //monsterLocationCol = 1;
         noiseFraction = 0.05;
@@ -84,7 +88,7 @@ public class Radar
      */
     public boolean scan()
     {
-        if(monsterLocationRow >= 100 || monsterLocationRow <= 0 || monsterLocationCol <= 0 || monsterLocationCol >= 100)
+        if(monsterLocationRow > 100 || monsterLocationRow < 0 || monsterLocationCol < 0 || monsterLocationCol > 100)
         {
             System.out.println("The monster has left the screen");
             return false;
@@ -154,7 +158,7 @@ public class Radar
                 }
             }
             
-            if(highest > sechighest + 6)
+            if(highest > sechighest + 8)
             {
                 System.out.println("The slope of the x is: " + possxvel);
                 System.out.println("The slope of the y is: " + possyvel);
@@ -169,7 +173,7 @@ public class Radar
     }
 
     /**
-     * Sets the location of the monster
+     * Updates the location of the monster
      * 
      * @param   row     the row in which the monster is located
      * @param   col     the column in which the monster is located
@@ -180,7 +184,7 @@ public class Radar
         // remember the row and col of the monster's location
         monsterLocationRow+= yvel;
         monsterLocationCol+= xvel;
-        System.out.println("monsterlocation " + monsterLocationCol + " " + monsterLocationRow);
+        //System.out.println("monsterlocation " + monsterLocationCol + " " + monsterLocationRow);
         
         // update the radar grid to show that something was detected at the specified location
         //currentScan[row][col] = true;
@@ -231,6 +235,28 @@ public class Radar
     public int getNumRows()
     {
         return currentScan.length;
+    }
+    
+     /**
+     * Returns the number of rows in the radar grid
+     * 
+     * @return the number of rows in the radar grid
+     */
+    public int getPossxVel()
+    {
+        return possxvel;
+    }
+    
+     
+    
+     /**
+     * Returns the number of rows in the radar grid
+     * 
+     * @return the number of rows in the radar grid
+     */
+    public int getPossyVel()
+    {
+        return possyvel;
     }
     
     /**
